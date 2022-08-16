@@ -20,8 +20,8 @@ namespace StaffManagement.Controllers
         [RegularExpression(@"^[a-z/A-Z]*",ErrorMessage = "Special characters and numbers are not allowed.")]
         public string lastname { get; set; }
 
-        [Range(typeof(DateTime), "1/2/2004", "3/4/2004",
-        ErrorMessage = "Value for {0} must be between {1} and {2}")]
+        [Range(typeof(DateTime), "11/11/1945","10/10/2002",
+        ErrorMessage = "Value for {0} must be between {1} and {2}"), DefaultValue("11/11/1945")]
         [DataType(DataType.Date)]
         public DateTime dateOfBirth { get; set; }
 
@@ -31,12 +31,12 @@ namespace StaffManagement.Controllers
         public string email { get; set; }
 
 
-        [RegularExpression(@"^((\d{2})-(\d{3})-(\d{3})-(\d{2})-(\d{2}))$", ErrorMessage = "Error")]
+        [RegularExpression(@"^([+](\d{2})-(\d{3})-(\d{3})-(\d{2})-(\d{2}))$", ErrorMessage = "Error"),DefaultValue("+99-999-999-99-99")]
         public string phoneNumber { get; set; }
 
 
 
-        [Range(minimum:2000, maximum:9000, ErrorMessage = "please enter a value between 2000 - 9000")]
+        [Range(minimum:2000, maximum:9000, ErrorMessage = "please enter a value between 2000 - 9000"),DefaultValue(2000)]
         public double salary { get; set; }
 
        

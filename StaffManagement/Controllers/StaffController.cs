@@ -38,7 +38,7 @@ namespace StaffManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddStaff([FromBody]Staff newStaff)
+        public IActionResult AddStaff([FromQuery]Staff newStaff)
         {
             var staff = StaffList.SingleOrDefault(x => x.name == newStaff.name);
 
@@ -64,7 +64,7 @@ namespace StaffManagement.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult UpdateStaff(int id,[FromQuery] Staff updatedStaff)
         {
             var staff = StaffList.Single(x => x.id == updatedStaff.id);
