@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using StaffManagement.StaffOperations.CreateStaff;
+using StaffManagement.StaffOperations.DeleteStaffQuery;
+using StaffManagement.StaffOperations.GetStaff;
+using StaffManagement.StaffOperations.GetStaffById;
+using StaffManagement.StaffOperations.UpdateStaff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,61 +30,118 @@ namespace StaffManagement.Controllers
         
 
         [HttpGet]
-        public List<Staff> GetStaffs()
+        public IActionResult GetStaffs()
         {
-            var staffList = StaffList.OrderBy(x => x.id).ToList<Staff>();
-            return staffList;
+            //StaffOperations'ta oluşturulan sınıf kullanılarak işlemler yapılmıştır.
+            GetStaffQuery query = new GetStaffQuery(StaffList);
+            var result = query.Handle();
+            return Ok(result);
         }
+
 
         [HttpGet("{Id}")]
-        public Staff GetStaffsById([FromQuery] int id)
+        public IActionResult GetStaffsById([FromQuery] int id)
         {
-            var staff = StaffList.SingleOrDefault(x => x.id == id);
-            return staff;
+            GetStaffByIdQuery query = new GetStaffByIdQuery(StaffList);
+            query.StaffId = id;
+            GetStaffByIdViewModel result;
+
+            try
+            {
+                GetStaffByIdQueryValidator validator = new GetStaffByIdQueryValidator();
+                validator.ValidateAndThrow(query);
+                result = query.Handle();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(result);
         }
+
 
         [HttpPost]
-        public IActionResult AddStaff([FromQuery]Staff newStaff)
+        public IActionResult AddStaff([FromQuery]CreateStaffModel newStaff)
         {
-            var staff = StaffList.SingleOrDefault(x => x.name == newStaff.name);
+            CreateStaffCommand command = new CreateStaffCommand(StaffList);
 
-            if (staff is not null)
+            try
             {
-                return BadRequest();
-            }
+                //Yeni staff Modelle eşlendi
+                command.Model = newStaff;
 
-            StaffList.Add(newStaff);
+                //FluentValidation validatoru kullanılarak validasyon sağlandı
+                CreateStaffCommandValidator validator = new CreateStaffCommandValidator();
+                var result = validator.Validate(command);
+
+                //Errorları listeye alınır
+                var errorList = new List<String>();
+
+                if (!result.IsValid)
+                {
+                   foreach(var error in result.Errors)
+                    {
+                        errorList.Add(error.ErrorMessage);
+                    }
+                   //Errorlar liste olarak döndürüldü
+                    return BadRequest(errorList);
+                }
+                else
+                {
+                    //Listeye ekleme işlemi error oluşmadıysa gerçekleştirilir
+                    command.Handle();
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
             return Ok();
         }
+
 
         [HttpDelete]
         public IActionResult DeleteStaff(int id)
         {
-            var staff = StaffList.SingleOrDefault(x => x.id == id);
-            if(staff is null)
+            DeleteStaffQuery query = new DeleteStaffQuery(StaffList);
+            try
             {
-                return BadRequest();
+                query.StaffId = id;
+                DeleteStaffQueryValidator validator = new DeleteStaffQueryValidator();
+                validator.ValidateAndThrow(query);
+                query.Handle();
             }
-            StaffList.Remove(staff);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok();
         }
 
 
-        [HttpPut]
-        public IActionResult UpdateStaff(int id,[FromQuery] Staff updatedStaff)
+        [HttpPut("{id}")]
+        public IActionResult UpdateStaff(int id,[FromQuery] UpdateStaffModel updatedStaff)
         {
-            var staff = StaffList.Single(x => x.id == updatedStaff.id);
-            if(updatedStaff is null)
+            try
             {
-                return BadRequest();
+                UpdateStaffCommand command = new UpdateStaffCommand(StaffList);
+                command.StaffId = id;
+                command.Model = updatedStaff;
+
+                //Handle işlemi gerçekleşmeden validasyon gerçekleştirildi
+                UpdateStaffCommandValidator validator = new UpdateStaffCommandValidator();
+                validator.ValidateAndThrow(command);
+                command.Handle();
             }
-           staff.name = updatedStaff.name != default ? updatedStaff.name:staff.name;
-           staff.lastname = updatedStaff.lastname != default ? updatedStaff.lastname : staff.lastname;
-           staff.email = updatedStaff.email != default ? updatedStaff.email : staff.email;
-           staff.dateOfBirth = updatedStaff.dateOfBirth != default ? updatedStaff.dateOfBirth : staff.dateOfBirth;
-           staff.phoneNumber = updatedStaff.phoneNumber != default ? updatedStaff.phoneNumber : staff.phoneNumber;
-           staff.salary = updatedStaff.salary != default ? updatedStaff.salary : staff.salary;
-           return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+            return Ok();
         }
     }
 }

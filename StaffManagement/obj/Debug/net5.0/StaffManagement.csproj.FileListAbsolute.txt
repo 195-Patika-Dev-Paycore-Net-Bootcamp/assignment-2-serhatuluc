@@ -27,3 +27,4 @@ C:\Users\Asus\source\repos\StaffManagement\StaffManagement\obj\Debug\net5.0\Staf
 C:\Users\Asus\source\repos\StaffManagement\StaffManagement\obj\Debug\net5.0\ref\StaffManagement.dll
 C:\Users\Asus\source\repos\StaffManagement\StaffManagement\obj\Debug\net5.0\StaffManagement.pdb
 C:\Users\Asus\source\repos\StaffManagement\StaffManagement\obj\Debug\net5.0\StaffManagement.genruntimeconfig.cache
+C:\Users\Asus\source\repos\StaffManagement\StaffManagement\bin\Debug\net5.0\FluentValidation.dll
