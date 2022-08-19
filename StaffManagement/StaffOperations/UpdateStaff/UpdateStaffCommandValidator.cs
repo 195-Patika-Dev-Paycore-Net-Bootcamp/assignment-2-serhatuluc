@@ -19,14 +19,14 @@ namespace StaffManagement.StaffOperations.UpdateStaff
             RuleFor(command => command.Model.email).Matches(@"^[a-zA-Z/(.@)]*$").EmailAddress();
 
             //BetweenTwoDate bir Custom Validator olarak hazırlanmıştır. Sayfanın sonunda görülebilir.
-            //Bir extension olan IsNow burada kullanılmıştır. Eğer bu data boş bırakılırsa data güncellemeden bırakılacaktır.
+            //Bir extension olan IsNow burada kullanılmıştır. Eğer bu data boş bırakılırsa data güncellenmeden bırakılacaktır.
             //When koşulu false döndürdüğünde validasyon error döndürmeyecektir.
-            RuleFor(command => command.Model.dateOfBirth).Must(BetweenTwoDate).WithMessage("Tarih 11-11-1945 ve 10-10-2022 arasında olmalıdır.").When(command => command.Model.dateOfBirth.IsNow());
+            RuleFor(command => command.Model.dateOfBirth).Must(BetweenTwoDate).WithMessage("Tarih 11-11-1945 ve 10-10-2022 arasında olmalıdır.").When(command => command.Model.dateOfBirth.IsNotNow());
 
             RuleFor(command => command.Model.phoneNumber).Matches(@"^([+](\d{2})-(\d{3})-(\d{3})-(\d{2})-(\d{2}))$").WithMessage("Alan kodu girecek şekilde yazınız. Örnek: +90-999-999-99-99");
 
             //IsZero extension olarak kullanılmıştır. Extension dosyasında bulunmaktadır.
-            RuleFor(command => command.Model.salary).GreaterThan(2000).LessThan(9000).When(command => command.Model.salary.IsZero());
+            RuleFor(command => command.Model.salary).GreaterThan(2000).LessThan(9000).When(command => command.Model.salary.IsNotZero());
 
         }
         

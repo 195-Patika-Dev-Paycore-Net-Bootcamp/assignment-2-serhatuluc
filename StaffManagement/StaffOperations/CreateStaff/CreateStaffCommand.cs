@@ -17,7 +17,9 @@ namespace StaffManagement.StaffOperations.CreateStaff
 
         public void Handle()
         {
-            //Handle metodu Model ile aldığı inputları yeni bir Staff nesnesine dönüştürüp listeye ekler
+            //Handle metodu Model ile aldığı inputları yeni bir Staff nesnesine dönüştürüp listeye ekler.
+            //Kullanıcıdan alınan inputların doğrudan nesne oluşturmak için kullanılmadı. Öncelikle modele değerler atandı.
+            //Sonrasında ise model kullanılarak nesne oluşturuldu.
             var staff = _StaffList.SingleOrDefault(x => x.name == Model.name);
 
             //eğer staff listede bulunuyorsa exception fırlatır

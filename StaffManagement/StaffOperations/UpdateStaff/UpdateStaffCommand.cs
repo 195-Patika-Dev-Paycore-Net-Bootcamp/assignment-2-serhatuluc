@@ -10,8 +10,13 @@ namespace StaffManagement.StaffOperations.UpdateStaff
     public class UpdateStaffCommand
     {
         private readonly List<Staff> _StaffList;
+
+        //Model kullanımı tercih edildi.
         public UpdateStaffModel Model { get; set; }
+
+        //Kullanıcıdan staff id alındı.
         public int StaffId { get; set; }
+
         public UpdateStaffCommand(List<Staff> StaffList)
         {
             _StaffList = StaffList;
@@ -27,6 +32,8 @@ namespace StaffManagement.StaffOperations.UpdateStaff
             {
                 throw new InvalidOperationException("Güncellenecek staff bulunamadı");
             }
+
+            //Eğer kullanıcı değer girmediyse değişmeyecek şekilde kodlandı. Örneğin kullanıcın sadece adını değiştirebilir.
             staff.name = Model.name != default ? Model.name : staff.name;
             staff.lastname = Model.lastname != default ? Model.lastname : staff.lastname;
             staff.email = Model.email != default ? Model.email : staff.email;

@@ -18,7 +18,10 @@ namespace StaffManagement.StaffOperations.GetStaff
         {
             //Handle metodu listede bulunan staff nesneleri id ye göre sıralar. ModelView kullanılmıştır.
             var StaffList = _StaffList.OrderBy(x => x.id).ToList<Staff>();
+
+            //View model nesnesi oluşturuldu.
             List<StaffViewModel> vm = new List<StaffViewModel>();
+            //Listedeki her eleman viewmodel ile eşlenerek döndürüldü.
             foreach(var staff in _StaffList)
             {
                 vm.Add(new StaffViewModel()

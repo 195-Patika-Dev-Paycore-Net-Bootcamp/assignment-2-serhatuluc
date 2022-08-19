@@ -22,6 +22,7 @@ namespace StaffManagement.StaffOperations.CreateStaff
         }
 
         //Bu custom validator tarihleri bu zaman aralığında check eder.
+        //Fluentvalidation'da bulunan "must" komutuyla bu validator kullanıldı.
         bool BetweenTwoDate(DateTime _dateOfBirth)
         {
             if (_dateOfBirth > new DateTime(2002,10,10) && _dateOfBirth < new DateTime(1945, 11, 11))

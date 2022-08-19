@@ -7,8 +7,8 @@ namespace StaffManagement.Extensions
 {
     public static class ExtensionTestMethods
     {
-        //Bu extension eğer değer 0 ise false döndürür. UpdateStaffCommandValidator ' de kullanıldı.
-        public static bool IsZero(this double x)
+        //Bu extension eğer değer 0 ise false döndürür. UpdateStaffCommandValidator sınıfında koşul olarak kullanıldı.
+        public static bool IsNotZero(this double x)
         {
             if (x == 0)
             {
@@ -17,8 +17,8 @@ namespace StaffManagement.Extensions
             return true;
         }
 
-        //Bu extension eğer tarih bugün ise false döndürür. UpdateStaffCommandValidator ' de kullanıldı.
-        public static bool IsNow(this DateTime y)
+        //Bu extension eğer tarih bugün ise false döndürür. UpdateStaffCommandValidator ' de sınıfında koşul olarak kullanıldı.
+        public static bool IsNotNow(this DateTime y)
         {
             //Güvende kalmak için tarih aralığının son günü kullanılmıştır.
             if (y < new DateTime(2002,10,10))

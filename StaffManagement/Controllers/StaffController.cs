@@ -16,6 +16,7 @@ namespace StaffManagement.Controllers
     [ApiController]
     public class StaffController : ControllerBase
     {
+        //Statik liste belierlendi, ekleme çıkarma işlemi bu liste üzerinde yapılacaktır.
         static List<Staff> StaffList = new List<Staff>() {new Staff
         (){
              id = 1,
@@ -27,29 +28,39 @@ namespace StaffManagement.Controllers
              salary = 4450
 
         }};
-        
+
+       
 
         [HttpGet]
         public IActionResult GetStaffs()
         {
             //StaffOperations'ta oluşturulan sınıf kullanılarak işlemler yapılmıştır.
             GetStaffQuery query = new GetStaffQuery(StaffList);
+
+            //Listedeki bütün objeleri döndürür.
             var result = query.Handle();
             return Ok(result);
         }
 
 
         [HttpGet("{Id}")]
-        public IActionResult GetStaffsById([FromQuery] int id)
+        public IActionResult GetStaffsById([FromBody] int id)
         {
+            //StaffOperations'ta oluşturulan sınıf kullanılarak işlemler yapılmıştır.
             GetStaffByIdQuery query = new GetStaffByIdQuery(StaffList);
+
+            //Id alındı.
             query.StaffId = id;
+
+            //Viewmodel kullanılarak result döndürülecek.
             GetStaffByIdViewModel result;
 
             try
             {
+                //Validator ile validation sağlandı.
                 GetStaffByIdQueryValidator validator = new GetStaffByIdQueryValidator();
                 validator.ValidateAndThrow(query);
+                //View işlemi burada halledildi.
                 result = query.Handle();
             }
             catch (Exception ex)
@@ -61,7 +72,7 @@ namespace StaffManagement.Controllers
 
 
         [HttpPost]
-        public IActionResult AddStaff([FromQuery]CreateStaffModel newStaff)
+        public IActionResult AddStaff([FromBody]CreateStaffModel newStaff)
         {
             CreateStaffCommand command = new CreateStaffCommand(StaffList);
 
@@ -109,9 +120,12 @@ namespace StaffManagement.Controllers
             DeleteStaffQuery query = new DeleteStaffQuery(StaffList);
             try
             {
+                //Id alındı
                 query.StaffId = id;
+                //Vaildator kullanılarak validation sağlandı
                 DeleteStaffQueryValidator validator = new DeleteStaffQueryValidator();
                 validator.ValidateAndThrow(query);
+                //İşlem burada gerçekleştirildi.
                 query.Handle();
             }
             catch (Exception ex)
