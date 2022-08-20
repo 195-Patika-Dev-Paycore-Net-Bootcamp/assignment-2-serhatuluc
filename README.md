@@ -13,18 +13,13 @@ Eğer döndürülen değer true ise validasyon komutu çalışır. Bu özellik u
 <br />
 <h3> Model</h3>
 <p>Bütün http requestlerde model kullanıldı. Get ve GetById için modelview kullanılarak dönüş yapıldı.</p>
-<br />
-<h3> Get</h3>
+
+
 ![](screenshots/Get.PNG)
-<br />
-<h3> GetById</h3>
 ![](screenshots/GetById.PNG)
-<br />
-<h3> Post</h3>
 ![](screenshots/Post.PNG)
-<br />
-<h3> Put</h3>
 ![](screenshots/Put.PNG)
-<br />
-<h3> Delete</h3>
 ![](screenshots/Delete.PNG)
+
+
+
