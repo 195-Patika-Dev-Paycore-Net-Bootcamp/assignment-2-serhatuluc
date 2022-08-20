@@ -24,11 +24,22 @@ namespace StaffManagement.Controllers
              lastname = "Sellen",
              dateOfBirth = new DateTime(1989,01,01),
              email = "deny@gmail.com",
-             phoneNumber = "555443366",
+             phoneNumber = "+905554446677",
              salary = 4450
+
+        },new Staff
+        (){
+             id = 2,
+             name = "Serhat",
+             lastname = "Uluc",
+             dateOfBirth = new DateTime(1997,01,01),
+             email = "serhat@gmail.com",
+             phoneNumber = "+905456478923",
+             salary = 5600
 
         }};
 
+        
        
 
         [HttpGet]
@@ -44,7 +55,7 @@ namespace StaffManagement.Controllers
 
 
         [HttpGet("{Id}")]
-        public IActionResult GetStaffsById([FromBody] int id)
+        public IActionResult GetStaffsById([FromQuery] int id)
         {
             //StaffOperations'ta oluşturulan sınıf kullanılarak işlemler yapılmıştır.
             GetStaffByIdQuery query = new GetStaffByIdQuery(StaffList);
